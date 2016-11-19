@@ -10,8 +10,6 @@ namespace automatic_tests.Driver
     {
         private static IWebDriver driver;
 
-        private DriverInstance() { }
-
         public static IWebDriver GetInstance()
         {
             if (driver == null)
