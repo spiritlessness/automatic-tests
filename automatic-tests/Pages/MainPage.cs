@@ -8,11 +8,13 @@ using OpenQA.Selenium;
 
 namespace automatic_tests.Pages
 {
-    class MainPage
+    class MainPage : AbstractPage
     {
         private const string BASE_URL = "http://www.kinogo.club/";
 
-        [FindsBy(How = How.CssSelector, Using = "body > div.wrapper > div.header > div.header44 > div.user_panel > div.loginin > a:nth-child(2)")]
+        
+
+        [FindsBy(How = How.LinkText, Using = "Вход")]
         private IWebElement buttonEnter;
 
         [FindsBy(How = How.Id, Using = "login_name")]
@@ -26,17 +28,18 @@ namespace automatic_tests.Pages
 
         [FindsBy(How = How.XPath, Using = "//a[@id='logbtn']")]
         private IWebElement linkLoggedInUser;
-        private IWebDriver driver;
+
 
         public MainPage(IWebDriver driver)
+            : base(driver)
         {
-            this.driver = driver;
             PageFactory.InitElements(this.driver, this);
         }
 
-        public void OpenPage()
+        public override void OpenPage()
         {
             driver.Navigate().GoToUrl(BASE_URL);
+            
         }
 
 
@@ -46,14 +49,32 @@ namespace automatic_tests.Pages
             buttonEnter.Click();
             inputLogin.SendKeys(username);
             inputPassword.SendKeys(password);
-            buttonSubmit.Click();
-            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
+            buttonSubmit.Click();            
+            System.Threading.Thread.Sleep(1000);
         }
-
+        public void LogOff()
+        {
+            IWebElement buttonExit = driver.FindElement(By.CssSelector("body > div.wrapper > div.header > div.header44 > div.user_panel > div.loginin > a.thide.lexit"));
+            buttonExit.Click();
+        }
         public string GetLoggedInUserName()
         {
-            
             return linkLoggedInUser.Text;
+        }
+        public string GetAuthorizationError()
+        {
+            IWebElement textAuthorizationError = driver.FindElement(By.CssSelector(".oformlenie > h1:nth-child(1)"));
+            return textAuthorizationError.Text;
+        }
+        public bool isEnterButtonExists()
+        {
+            return buttonEnter.Text.Equals("Вход");
+        }
+        public void GoThroughPanel(string filmType)
+        {
+            IWebElement linkPanel = driver.FindElement(By.LinkText(filmType));
+            Console.WriteLine(linkPanel.Text);
+            linkPanel.Click();
         }
     }
 }

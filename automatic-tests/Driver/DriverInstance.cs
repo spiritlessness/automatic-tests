@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace automatic_tests.Driver
 {
-    class DriverInstance
+    static class DriverInstance
     {
         private static IWebDriver driver;
 
@@ -17,6 +17,7 @@ namespace automatic_tests.Driver
             if (driver == null)
             {
                 driver = new FirefoxDriver();
+                driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
                 driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
                 driver.Manage().Window.Maximize();
             }
