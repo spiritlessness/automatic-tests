@@ -39,7 +39,7 @@ namespace automatic_tests.Pages
         public void LoadPicture()
         {
             IWebElement inputChooseFile = driver.FindElement(By.Name("image"));
-            inputChooseFile.SendKeys(System.IO.Path.GetFullPath(@"./img/images.jpg"));
+            inputChooseFile.SendKeys(System.IO.Path.GetFullPath(@"automatic-tests/img/images.jpg"));
             System.Threading.Thread.Sleep(2000);
             
 
